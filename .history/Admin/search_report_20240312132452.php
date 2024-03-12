@@ -1,80 +1,10 @@
 <?php
-
 include('../inc/controller.php');
-//publish
-// Include PhpSpreadsheet library autoloader
-require_once 'vendor/autoload.php';
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-
 if(empty($_SESSION['login_username']))
-    {   
-      header("Location: login.php"); 
-    }
-    
+{   
+header("Location: login.php"); 
+}  
 $username = $_SESSION["login_username"];
-
-if(isset($_POST["btnupload"]))
-{
-
-
-    // Allowed mime types
-    $excelMimes = array('text/xls', 'text/xlsx', 'application/excel', 'application/vnd.msexcel', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-    // Validate whether selected file is a Excel file
-    if(!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $excelMimes)){
-
-        // If the file is uploaded
-        if(is_uploaded_file($_FILES['file']['tmp_name'])){
-            $reader = new Xlsx();
-            $spreadsheet = $reader->load($_FILES['file']['tmp_name']);
-            $worksheet = $spreadsheet->getActiveSheet();
-            $worksheet_arr = $worksheet->toArray();
-
-            // Remove header row
-            unset($worksheet_arr[0]);
-            unset($worksheet_arr[1]);
-
-            foreach($worksheet_arr as $row){
-                $indexno = $row[0];
-                $fullname = strtoupper($row[1]);
-                $sex = strtoupper($row[2]);
-                $aggregate = strtoupper($row[3]);
-                $programme = strtoupper($row[4]);
-                $boarding_status = strtoupper($row[6]);
-                          
-
-$qry = "INSERT INTO `tblstudents`(`index_no`, `fullname`,`sex`, `programme`,`class`,`boarding_status`,`aggregate`,`raw_score`, `enrollment_code`,`jhs_attended`, `jhs_type`,`phone`, `email`,`father_name`, `father_occupation`,`mother_name`, `mother_occupation`,`guardian_name`, `residential_telephone`,`status`,`photo`,`school_session`,`house`) 
-VALUES ('$indexno', '$fullname','$sex', '$programme','To be Assigned Later', '$boarding_status','$aggregate', '','', '','' , '','', '','', '','', '','','0','uploadImage/Profile/default.png','$current_session','To be Assigned Later')";
-$result = mysqli_query($conn,$qry);
-
-}
-
-//save activity log details
-$task= $username.' '.'Uploaded student list'.' '. 'On' . ' '.$current_date;
-$sql = 'INSERT INTO activity_log(task) VALUES(:task)';
-$statement = $dbh->prepare($sql);
-$statement->execute([
-':task' => $task
-]);
-
-if($result){
-
-  //save activity log details
-  $task= $username.' '.'uploaded student list'.' '. 'On' . ' '.$current_date;
-  $sql = 'INSERT INTO activity_log(task) VALUES(:task)';
-  $statement = $dbh->prepare($sql);
-  $statement->execute([
-  ':task' => $task
-  ]);
-$_SESSION['success']='Student list has been uploaded Successfull';
- }else{
-
-$_SESSION['error']='Problem uploading student list';
-}
-}
-}
-}
-
 
 ?>
 <!DOCTYPE html>
@@ -82,8 +12,8 @@ $_SESSION['error']='Problem uploading student list';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Upload Student List|Dashboard</title>
-  <link rel="icon" type="image/png" sizes="16x16" href="../<?php echo $logo; ?>">
+  <title> Student Report| <?php echo $name ;?> </title>
+  <link rel="icon" type="image/png" sizes="16x16" href="../<?php echo $logo;?>">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -116,7 +46,7 @@ $_SESSION['error']='Problem uploading student list';
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>      </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Home</a>      </li>
-      
+
     </ul>
 
     <!-- SEARCH FORM -->
@@ -133,8 +63,8 @@ $_SESSION['error']='Problem uploading student list';
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
- 
-      
+
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -143,8 +73,8 @@ $_SESSION['error']='Problem uploading student list';
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index.php" class="brand-link">
-      <img src="../<?php echo $logo ;?>" alt=" Logo"  width="200" height="111" class="" style="opacity: .8">
-	  <span class="brand-text font-weight-light"></span>
+      <img src="../<?php echo $logo;   ?>" alt=" Logo"  width="200" height="111" class="" style="opacity: .8">
+	        <span class="brand-text font-weight-light"></span>
     </a>
 
     <!-- Sidebar -->
@@ -152,12 +82,11 @@ $_SESSION['error']='Problem uploading student list';
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../<?php echo $photo_admin; ?>" alt="User Image" width="220" height="192" class="img-circle elevation-2">        </div>
+          <img src="../<?php echo $photo;    ?>" alt="User Image" width="220" height="192" class="img-circle elevation-2">        </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $fullname_admin;  ?></a>
         </div>
       </div>
-
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
@@ -176,13 +105,13 @@ $_SESSION['error']='Problem uploading student list';
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-         
+
 		 <?php
 			   include('sidebar.php');
-			   
+
 			   ?>
-		 
-		 
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -202,7 +131,7 @@ $_SESSION['error']='Problem uploading student list';
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Upload Student </li>
+              <li class="breadcrumb-item active">Student Report</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -214,32 +143,36 @@ $_SESSION['error']='Problem uploading student list';
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
-        <div class="row">
-        
-		 <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Upload Student List</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form  action="" method="POST" enctype="multipart/form-data">
-                <div class="card-body">
-               
-<div class="form-group">
-                    <label for="exampleInputEmail1">Student File(Ms Excel) </label>
-                    <input name="file" type="file" class="form-control"  accept=".xls,.xlsx"/>
-                  </div>
-                </div>
-                <!-- /.card-body -->
+       <div class="page-body">
 
-                <div class="card-footer">
-                  <button type="submit" name="btnupload" class="btn btn-primary">Upload </button>
-                </div>
-              </form>
-            </div>
-		
-        </div>
+    <div class="card">
+                            <div class="card-header">
+                                <strong>Student </strong> Reports
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="report_student.php" method="post">
+                                    <p style="font-size:16px; color:red" align="center"> <?php if(isset($msg)){
+                                        echo $msg;
+                                    }  ?> </p>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Search Using Admission Status</label></div>
+                                        <div class="col-12 col-md-9"> <select name="cmdsearch" id="cmdsearch" class="form-control" required="true"></div>
+                                        <option value="1">Admitted</option>
+                                        <option value="1">Admitted</option>
+
+                                        <option value="0">Pending</option>
+                                        <option value="2">Rejected</option>
+
+                                      </select>
+                                    
+                                      </div>
+                                   
+                                   <p style="text-align: center;"> <button type="submit" class="btn btn-primary m-b-0" name="submit" >Submit</button></p>
+                                </form>
+                            </div>
+
+                        </div>
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
@@ -253,9 +186,10 @@ $_SESSION['error']='Problem uploading student list';
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <?php include('..inc/footer2.php');  ?>
+  <?php include('../inc/footer.php');  ?>
+
     <div class="float-right d-none d-sm-inline-block">
-      
+
     </div>
   </footer>
 
@@ -301,14 +235,14 @@ $_SESSION['error']='Problem uploading student list';
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-	
+
 <link rel="stylesheet" href="popup_style.css">
 <?php if(!empty($_SESSION['success'])) {  ?>
 <div class="popup popup--icon -success js_success-popup popup--visible">
   <div class="popup__background"></div>
   <div class="popup__content">
     <h3 class="popup__content__title">
-      <strong>Success</strong> 
+      <strong>Success</strong>
     </h1>
     <p><?php echo $_SESSION['success']; ?></p>
     <p>
@@ -316,14 +250,14 @@ $_SESSION['error']='Problem uploading student list';
     </p>
   </div>
 </div>
-<?php unset($_SESSION["success"]);  
+<?php unset($_SESSION["success"]);
 } ?>
 <?php if(!empty($_SESSION['error'])) {  ?>
 <div class="popup popup--icon -error js_error-popup popup--visible">
   <div class="popup__background"></div>
   <div class="popup__content">
     <h3 class="popup__content__title">
-      <strong>Error</strong> 
+      <strong>Error</strong>
     </h1>
     <p><?php echo $_SESSION['error']; ?></p>
     <p>

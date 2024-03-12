@@ -95,7 +95,7 @@
             </a>
           </li>	
           <li class="nav-item">
-            <a href="search_report.php" class="nav-link">
+            <a href="report.php" class="nav-link">
               <p>Report      </p>
             </a>
           </li>	

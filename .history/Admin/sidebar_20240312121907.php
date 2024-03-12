@@ -95,8 +95,8 @@
             </a>
           </li>	
           <li class="nav-item">
-            <a href="search_report.php" class="nav-link">
-              <p>Report      </p>
+            <a href="payment_history.php" class="nav-link">
+              <p>Payment History      </p>
             </a>
           </li>	
           <li class="nav-item">
