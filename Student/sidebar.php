@@ -29,7 +29,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="../Downloads/Personal_Records.pdf" class="dropdown-toggle no-arrow" target="_blank">
+						<a href="personalRecordForm.php" class="dropdown-toggle no-arrow">
 							<span class="micon dw dw-edit2"></span><span class="mtext">Personal Records</span>
 						</a>
 					</li>

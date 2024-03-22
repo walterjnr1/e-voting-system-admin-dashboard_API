@@ -130,7 +130,7 @@ $result = mysqli_query($conn, $query);
 if ($result) 
 { 
  $row_reg_students = mysqli_num_rows($result); 
-   
+ 
 }
 $query = "SELECT * FROM users "; 
 $result = mysqli_query($conn, $query); 
@@ -138,7 +138,7 @@ $result = mysqli_query($conn, $query);
 if ($result) 
 { 
  $row_users = mysqli_num_rows($result); 
-   
+
 }                  
 
 $query = "SELECT * FROM tblschools"; 
@@ -157,12 +157,12 @@ if ($result)
  $row_houses= mysqli_num_rows($result); 
    
 }  
-$query = "SELECT * FROM tbldept "; 
+$query = "SELECT * FROM tblclass "; 
 $result = mysqli_query($conn, $query); 
 
 if ($result) 
 { 
- $row_depts= mysqli_num_rows($result); 
+ $row_class= mysqli_num_rows($result); 
    
 }  
 
@@ -231,9 +231,9 @@ if ($result)
               <span class="info-box-icon bg-danger elevation-1"><i class="fa fa-home" id="icon"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total No. of School(s) </span>
+                <span class="info-box-text">Total No. of Class </span>
                 <span class="info-box-number">
-                  <?php  echo $row_schools;   ?>
+                  <?php  echo $row_class;   ?>
                   <small></small>
                 </span>
               </div>
@@ -292,25 +292,6 @@ if ($result)
             </div>
             <!-- /.info-box -->
           </div>
-
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-home" id="icon"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">No. Of Dept(s) </span>
-                <span class="info-box-number">
-                  <?php  echo $row_depts;   ?>
-                  <small></small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-
-
         
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">

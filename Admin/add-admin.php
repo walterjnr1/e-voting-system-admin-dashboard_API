@@ -1,4 +1,11 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require '../vendor/autoload.php';
+
 include('../inc/controller.php');
 if(empty($_SESSION['login_username']))
     {   
@@ -10,34 +17,91 @@ $username = $_SESSION["login_username"];
 if(isset($_POST["btncreate"]))
 {
 
-$username = strtoupper(mysqli_real_escape_string($conn,$_POST['txtusername']));
+$username = (mysqli_real_escape_string($conn,$_POST['txtusername']));
 $fullname = strtoupper(mysqli_real_escape_string($conn,$_POST['txtfullname']));
-$email = strtoupper(mysqli_real_escape_string($conn,$_POST['txtemail']));
-$password = strtoupper(mysqli_real_escape_string($conn,$_POST['txtpassword']));
-$password2 = strtoupper(mysqli_real_escape_string($conn,$_POST['txtpassword2']));
+$email = (mysqli_real_escape_string($conn,$_POST['txtemail']));
+//$password = strtoupper(mysqli_real_escape_string($conn,$_POST['txtpassword']));
+//$password2 = strtoupper(mysqli_real_escape_string($conn,$_POST['txtpassword2']));
+$group = (mysqli_real_escape_string($conn,$_POST['cmdgroup']));
 
+//generate password
+function generateRandomPassword($length = 8) {
+  $password = '';
+  $possibleCharacters = 'ABCDEFGHIJKLMNOPQRSTWXYZ0123456789';
 
- $sql = "SELECT * FROM users where username='$username'";
+  for ($i = 0; $i < $length; $i++) {
+      $password .= $possibleCharacters[mt_rand(0, strlen($possibleCharacters) - 1)];
+  }
+return $password;
+}
+$password = generateRandomPassword(8);
+
+$sql = "SELECT * FROM users where username='$username'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
 $_SESSION['error'] =' Username Already Exist ';
 
-}elseif($password!=$password2){ 
-$_SESSION['error'] ='Both Passwords Do not match';
+//}elseif($password!=$password2){ 
+//$_SESSION['error'] ='Both Passwords Do not match';
 
-}elseif(strlen($password) < 8){ 
-$_SESSION['error'] ='Password must be at least 8 characters';
+//}elseif(strlen($password) < 8){ 
+//$_SESSION['error'] ='Password must be at least 8 characters';
 
 
 }else{
+
 //save users details
 $query = "INSERT into `users` (username,password,fullname,email,lastaccess,status,photo,groupname)
-VALUES ('$username','$password','$fullname','$email','Nill','1','uploadImage/Profile/default.png','Admin')";
+VALUES ('$username','$password','$fullname','$email','Nill','1','uploadImage/Profile/default.png','$group')";
   $result = mysqli_query($conn,$query);
 
+//send registration email
+$mail = new PHPMailer(true);
+     
+//Server settings
+$mail->isSMTP();                                            //Send using SMTP
+$mail->Host       = $email_server;                     //Set the SMTP server to send through
+$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+$mail->Username   = $email_username;                     //SMTP username
+$mail->Password   = $app_password;                               //SMTP password
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+ $mail->Port       = $port;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-  //save activity log details
+//Recipients
+$mail->setFrom($email_website, $schoolname);
+$mail->addAddress($email,$fullname);     //Add a recipient
+
+$message = "
+<html>
+<head>
+<title>User Account | $schoolname</title>
+</head>
+<body>
+<p>Hello <strong>$fullname ,</strong></p>
+       
+<p> Your account as a $group with $schoolname has been successfully created.</p>
+ 
+<p>  Username is :$username  .</p>
+<p>  password is :$password  .</p>
+
+<p>N/B: You Are advised to change password to something you can easily remember.</p>
+
+<p> Regards.</p>
+<p>$schoolname Team</p>        
+</body>
+</html>
+";
+
+//Content
+$mail->isHTML(true);                                  //Set email format to HTML
+$mail->Subject = "User Account  | $schoolname ";
+$mail->Body    = $message;
+
+$mail->send();
+
+
+//save activity log details
 $task= $username.' '.'Added New User'.' '. 'On' . ' '.$current_date;
 $sql = 'INSERT INTO activity_log(task) VALUES(:task)';
 $statement = $dbh->prepare($sql);
@@ -48,7 +112,7 @@ $statement->execute([
       if($result){
 	
 
-    $_SESSION['success'] ='User Added Successfully';
+    $_SESSION['success'] ='User Account created Successfully and email sent to the user';
 
 }else{
   $_SESSION['error'] ='Problem Adding User';
@@ -214,21 +278,21 @@ $statement->execute([
                     <label for="exampleInputEmail1">Fullname </label>
                     <input type="text" class="form-control" name="txtfullname" id="exampleInputEmail1" size="77" value="<?php if (isset($_POST['txtfullname']))?><?php echo $_POST['txtfullname']; ?>" placeholder="Enter Fullname">
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" name="txtpassword" id="exampleInputPassword1" size="77" value="<?php if (isset($_POST['txtpassword']))?><?php echo $_POST['txtpassword']; ?>" placeholder="Enter Password">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Re-Password</label>
-                    <input type="password" class="form-control" name="txtpassword2" id="exampleInputPassword1" size="77" value="<?php if (isset($_POST['txtpassword2']))?><?php echo $_POST['txtpassword2']; ?>" placeholder="Confirm Password">
-                  </div>
-				
+                 		
                   <div class="form-group">
                     <label for="exampleInputPassword1">Email</label>
                     <input type="email" class="form-control" name="txtemail" id="exampleInputPassword1" size="77" value="<?php if (isset($_POST['txtemail']))?><?php echo $_POST['txtemail']; ?>" placeholder="Enter Email">
                   </div>
                   
-				 
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Group Name</label>
+                    <select name="cmdgroup"  id="cmdgroup" class="form-control" required>';
+             <option value="">Select User Group</option>
+             <option value="Admission Committee">Admission Committee</option>
+             <option value="Headmaster">Headmaster</option>
+             <option value="Principal">Principal</option>
+
+            </select>                     </div>
                 </div>
                 <!-- /.card-body -->
 

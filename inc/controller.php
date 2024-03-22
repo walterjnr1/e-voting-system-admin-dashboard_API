@@ -25,6 +25,7 @@ $admission_fee=$row_website['admission_fee'];
 $logo=$row_website['logo'];
 $headmaster=$row_website['headmaster'];
 $reportdate=$row_website['reportdate'];
+$box=$row_website['box'];
 
 //fetch admin data
 $username = $_SESSION["login_username"];

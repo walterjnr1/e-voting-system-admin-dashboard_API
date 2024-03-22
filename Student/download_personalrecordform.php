@@ -6,7 +6,7 @@ if(empty($_SESSION['login_index_no'])) {
   header("Location: ../login.php");
 }
 
-    $filename = "../Downloads/Personal_Records.pdf";  // your_file_name
+    $filename = "../Downloads/personaldataform/Personal_Records.pdf";  // your_file_name
 if (file_exists($filename)) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');

@@ -14,7 +14,8 @@ $status = '1';
     $row  = mysqli_fetch_array($result);
     
      $_SESSION["login_username"] = $row['username'];
-  
+     $_SESSION['login_groupname'] = $row['groupname'];
+     
      $count=mysqli_num_rows($result);
      if(isset($_SESSION["login_username"])) {
     {       

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2024 at 08:57 AM
+-- Generation Time: Mar 21, 2024 at 11:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,41 +32,6 @@ CREATE TABLE `activity_log` (
   `task` varchar(5000) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `activity_log`
---
-
-INSERT INTO `activity_log` (`ID`, `task`) VALUES
-(2557, 'admin block/unblock student On 2024-03-11 08:38:48'),
-(2558, 'admin Assigned Class and House to Student On 2024-03-11 08:39:06'),
-(2556, 'admin block/unblock student On 2024-03-11 08:38:37'),
-(2554, 'admin Deleted House On 2024-03-11 08:37:36'),
-(2555, 'admin Added New Class On 2024-03-11 08:37:48'),
-(2553, 'admin Edited house data On 2024-03-11 08:37:28'),
-(2551, 'admin Open Academic Session On 2024-03-11 08:36:51'),
-(2552, 'admin Added New House On 2024-03-11 08:37:11'),
-(2550, 'admin deleted session On 2024-03-11 08:36:11'),
-(2548, 'admin Added New House On 2024-03-11 08:35:50'),
-(2549, 'admin Added New House On 2024-03-11 08:36:02'),
-(2547, 'admin Assigned Class and House to Student On 2024-03-11 08:34:55'),
-(2546, 'admin Assigned Class and House to Student On 2024-03-11 08:34:09'),
-(2545, 'admin Assigned Class and House to Student On 2024-03-11 08:30:53'),
-(2544, 'admin logged in On 2024-03-11 08:17:02'),
-(2543, 'ABDUL MAJID DRAMANI Edited his personal data On 2024-03-08 20:27:57'),
-(2542, 'ABDUL MAJID DRAMANI Edited his photo On 2024-03-08 20:27:06'),
-(2541, '60101200123 logged in On 2024-03-08 20:25:52'),
-(2540, 'admin uploaded New prospectus On 2024-03-08 20:19:21'),
-(2539, 'admin uploaded New prospectus On 2024-03-08 20:19:01'),
-(2538, 'admin uploaded student list On 2024-03-08 20:17:31'),
-(2537, 'admin Uploaded student list On 2024-03-08 20:17:31'),
-(2536, 'admin block/unblock User On 2024-03-08 20:16:38'),
-(2535, 'admin block/unblock User On 2024-03-08 20:16:33'),
-(2534, 'TEACHER1 Added New User On 2024-03-08 20:16:16'),
-(2533, 'admin Added website details On 2024-03-08 20:14:09'),
-(2532, 'admin Open Academic Session On 2024-03-08 20:13:02'),
-(2531, 'admin logged in On 2024-03-08 20:08:17'),
-(2530, 'admin logged in On 2024-03-08 20:05:04');
-
 -- --------------------------------------------------------
 
 --
@@ -78,13 +43,6 @@ CREATE TABLE `school_session` (
   `current_session` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `school_session`
---
-
-INSERT INTO `school_session` (`ID`, `current_session`) VALUES
-(23, '2023/2024');
-
 -- --------------------------------------------------------
 
 --
@@ -93,17 +51,9 @@ INSERT INTO `school_session` (`ID`, `current_session`) VALUES
 
 CREATE TABLE `tblclass` (
   `ID` int(5) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `class_limit` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tblclass`
---
-
-INSERT INTO `tblclass` (`ID`, `name`) VALUES
-(2, 'JSS1Aswe'),
-(3, 'JSS1B'),
-(4, 'JSS2');
 
 -- --------------------------------------------------------
 
@@ -148,15 +98,6 @@ CREATE TABLE `tblhouse` (
   `name` varchar(180) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tblhouse`
---
-
-INSERT INTO `tblhouse` (`ID`, `name`) VALUES
-(2, 'Manioo'),
-(4, 'HOUSE OF JOY'),
-(5, 'HOUSE OF PEACE');
-
 -- --------------------------------------------------------
 
 --
@@ -174,12 +115,40 @@ CREATE TABLE `tblpayment` (
   `payment_date` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tblpayment`
+-- Table structure for table `tblpersonaldataform`
 --
 
-INSERT INTO `tblpayment` (`ID`, `referenceID`, `index_no`, `amount`, `phone`, `email`, `school`, `payment_date`) VALUES
-(14, 'shs244149435', '60101200123', '45', '08067361023', 'newleastpaysolution@gmail.com', 'mansen senior high school', '2024-03-08 20:25:35');
+CREATE TABLE `tblpersonaldataform` (
+  `ID` int(5) NOT NULL,
+  `filename` varchar(6000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblprogramme`
+--
+
+CREATE TABLE `tblprogramme` (
+  `ID` int(6) NOT NULL,
+  `name` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblprogramme`
+--
+
+INSERT INTO `tblprogramme` (`ID`, `name`) VALUES
+(2, 'AGRICULTURE SCIENCE'),
+(3, 'BUSINESS'),
+(4, 'VISUAL ARTS'),
+(5, 'GENERAL ARTS'),
+(6, 'HOME ECONOMICS'),
+(7, 'GENERAL SCIENCE'),
+(8, 'TECHNICAL');
 
 -- --------------------------------------------------------
 
@@ -192,14 +161,6 @@ CREATE TABLE `tblprospectus` (
   `prospectus_type` varchar(20) NOT NULL,
   `filename` varchar(999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tblprospectus`
---
-
-INSERT INTO `tblprospectus` (`ID`, `prospectus_type`, `filename`) VALUES
-(23, 'DAY STUDENT', 'https___cssps.gov_day.pdf'),
-(24, 'BOARDER', 'https___cssps.gov_boarder.pdf');
 
 -- --------------------------------------------------------
 
@@ -262,12 +223,58 @@ CREATE TABLE `tblstudents` (
 --
 
 INSERT INTO `tblstudents` (`ID`, `index_no`, `fullname`, `sex`, `programme`, `class`, `boarding_status`, `aggregate`, `raw_score`, `enrollment_code`, `jhs_attended`, `jhs_type`, `phone`, `email`, `father_name`, `father_occupation`, `mother_name`, `mother_occupation`, `guardian_name`, `residential_telephone`, `status`, `photo`, `school_session`, `house`) VALUES
-(1584, '60101200123', 'ABDUL MAJID DRAMANI', 'MALE', 'GENERAL ARTS', 'JSS1B', 'BOARDING', '33', '33', '4545454545', 'LUTHERAN HIGH SCHOOLF', 'PRIVATE', '08067361023', 'XXXXX@GMAIL.COM', 'NONSO', 'FARMER', 'ARIT', 'TEACHER', 'NIL', '0902', 1, 'uploadImage/Profile/uhyt.jpg', '2023/2024', 'MANIOO'),
+(1584, '60101200123', 'ABDUL MAJID DRAMANI', 'MALE', 'GENERAL ARTS', 'JSS2', 'BOARDING', '33', '33', '4545454545', 'LUTHERAN HIGH SCHOOL', 'PRIVATE', '08067361023', 'XXXXX@GMAIL.COM', 'NONSO', 'FARMER', 'ARIT', 'TEACHER', 'NIL', '0902', 1, 'uploadImage/Profile/uhyt.jpg', '2023/2024', 'HOUSE OF PEACE'),
 (1585, '060119200323', 'ABDUL RAZAK SAMIRATU', 'FEMALE', 'GENERAL SCIENCE', 'To be Assigned Later', 'BOARDING', '22', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'uploadImage/Profile/default.png', '2023/2024', 'To be Assigned Later'),
-(1586, '060701100123', 'ABIBATA SADICK', 'FEMALE', 'GENERAL ARTS', 'To be Assigned Later', 'BOARDING', '32', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'uploadImage/Profile/default.png', '2023/2024', 'To be Assigned Later'),
-(1587, '062601100123', 'ABISTUA MARY', 'FEMALE', 'GENERAL ARTS', 'To be Assigned Later', 'BOARDING', '30', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'uploadImage/Profile/default.png', '2023/2024', 'To be Assigned Later'),
-(1588, '060803700323', 'ABUBAKAR SADIQUE', 'MALE', 'GENERAL ARTS', 'JSS1B', 'BOARDING', '30', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'uploadImage/Profile/default.png', '2023/2024', 'HOUSE OF JOY'),
-(1589, '060805200123', 'ABUGRI SAFIA', 'FEMALE', 'VISUAL ARTS', 'JSS1B', 'BOARDING', '23', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'uploadImage/Profile/default.png', '2023/2024', 'MANIOO');
+(1586, '060701100123', 'ABIBATA SADICK', 'FEMALE', 'GENERAL ARTS', 'JSS1', 'BOARDING', '32', '', '', '', '', '', '', '', '', '', '', '', '', 0, 'uploadImage/Profile/default.png', '2023/2024', 'To be Assigned Later'),
+(1587, '062601100123', 'ABISTUA MARY', 'FEMALE', 'GENERAL ARTS', 'JSS1', 'BOARDING', '30', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'uploadImage/Profile/default.png', '2023/2024', 'To be Assigned Later'),
+(1588, '060803700323', 'ABUBAKAR SADIQUE', 'MALE', 'GENERAL ARTS', 'JSS1', 'BOARDING', '30', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'uploadImage/Profile/default.png', '2023/2024', 'HOUSE OF PEACE'),
+(1589, '060805200123', 'ABUGRI SAFIA', 'FEMALE', 'VISUAL ARTS', 'JSS2', 'BOARDING', '23', '', '', '', '', '', '', '', '', '', '', '', '', 1, 'uploadImage/Profile/default.png', '2023/2024', 'HOUSE OF PEACE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblsubject`
+--
+
+CREATE TABLE `tblsubject` (
+  `ID` int(5) NOT NULL,
+  `name` varchar(77) NOT NULL,
+  `subject_type` varchar(17) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblsubject`
+--
+
+INSERT INTO `tblsubject` (`ID`, `name`, `subject_type`) VALUES
+(1, 'CORE MATHEMATICS', 'CORE SUBJECT'),
+(2, 'ENGLISH LANGUAGE', 'CORE SUBJECT'),
+(3, 'AGRIC SCIENCE', 'ELECTIVE SUBJECT'),
+(4, 'FORESTRY', 'ELECTIVE SUBJECT'),
+(5, 'FISHERY', 'ELECTIVE SUBJECT'),
+(6, 'CROP HUSBANDRY', 'ELECTIVE SUBJECT'),
+(7, 'ANIMAL HUSBANDRY', 'ELECTIVE SUBJECT'),
+(8, 'INTEGRATED SCIENCE', 'CORE SUBJECT'),
+(9, 'SOCIAL STUDIES', 'CORE SUBJECT'),
+(10, 'ICT', 'ELECTIVE SUBJECT'),
+(11, 'PHYSICAL EDUCATION', 'CORE SUBJECT'),
+(12, 'BUSINESS MANAGEMENT', 'ELECTIVE SUBJECT'),
+(13, 'CLERICAL OFFICE DUTIES', 'ELECTIVE SUBJECT'),
+(14, 'FINANCIAL ACCOUNTING', 'ELECTIVE SUBJECT'),
+(15, 'TYPEWRITING', 'ELECTIVE SUBJECT'),
+(16, 'COST ACCOUNTING', 'ELECTIVE SUBJECT');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblsubjectcombination`
+--
+
+CREATE TABLE `tblsubjectcombination` (
+  `ID` int(7) NOT NULL,
+  `class` varchar(33) NOT NULL,
+  `subject` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -292,8 +299,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `username`, `password`, `fullname`, `email`, `lastaccess`, `status`, `photo`, `groupname`) VALUES
-(28, 'admin', 'admin123', 'Ndueso Walter', 'newleastpaysolution@gmail.com', '2024-03-08 20:08:16', 1, 'uploadImage/Profile/default.png', 'Super Admin'),
-(31, 'TEACHER1', '11111111', 'ASAMOAH MENSAH', 'MEN@GMAIL.COM', 'Nill', 1, 'uploadImage/Profile/default.png', 'Admin');
+(21, 'admin', 'admin123', 'Ndueso Walter', 'newleastpaysolution@gmail.com', '2024-03-20 11:28:05', 1, 'uploadImage/Profile/default.png', 'Super Admin');
 
 -- --------------------------------------------------------
 
@@ -375,6 +381,18 @@ ALTER TABLE `tblpayment`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `tblpersonaldataform`
+--
+ALTER TABLE `tblpersonaldataform`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblprogramme`
+--
+ALTER TABLE `tblprogramme`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `tblprospectus`
 --
 ALTER TABLE `tblprospectus`
@@ -390,6 +408,18 @@ ALTER TABLE `tblschools`
 -- Indexes for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblsubject`
+--
+ALTER TABLE `tblsubject`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblsubjectcombination`
+--
+ALTER TABLE `tblsubjectcombination`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -412,7 +442,7 @@ ALTER TABLE `website_settings`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2559;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2669;
 
 --
 -- AUTO_INCREMENT for table `school_session`
@@ -424,7 +454,7 @@ ALTER TABLE `school_session`
 -- AUTO_INCREMENT for table `tblclass`
 --
 ALTER TABLE `tblclass`
-  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbldept`
@@ -448,7 +478,19 @@ ALTER TABLE `tblhouse`
 -- AUTO_INCREMENT for table `tblpayment`
 --
 ALTER TABLE `tblpayment`
-  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `tblpersonaldataform`
+--
+ALTER TABLE `tblpersonaldataform`
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tblprogramme`
+--
+ALTER TABLE `tblprogramme`
+  MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tblprospectus`
@@ -469,10 +511,22 @@ ALTER TABLE `tblstudents`
   MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1590;
 
 --
+-- AUTO_INCREMENT for table `tblsubject`
+--
+ALTER TABLE `tblsubject`
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `tblsubjectcombination`
+--
+ALTER TABLE `tblsubjectcombination`
+  MODIFY `ID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ID` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

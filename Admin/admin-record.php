@@ -201,6 +201,7 @@ else {return false;
                         <th width="6%"><div align="center">fullname</div></th>
                         <th width="8%"><div align="center">Email</div></th>
 						           <th width="8%"><div align="center">Status</div></th>
+                       <th width="8%"><div align="center">Group Name</div></th>
                        <th width="16%"><div align="center">Action</div></th>
                         
 				      </tr>
@@ -229,6 +230,8 @@ else {return false;
                    
                       </div>
                     </td>
+                    <td><div align="center"><?php echo $row['groupname']; ?></div></td>
+
                         <td>    
                            <div class="btn-group">
                     <button type="button" class="btn btn-danger btn-flat">Action</button>

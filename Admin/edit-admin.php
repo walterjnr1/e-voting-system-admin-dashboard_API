@@ -23,9 +23,10 @@ if(isset($_POST["btnedit"]))
 
 $fullname = strtoupper(mysqli_real_escape_string($conn,$_POST['txtfullname']));
 $email = strtoupper(mysqli_real_escape_string($conn,$_POST['txtemail']));
+$group = strtoupper(mysqli_real_escape_string($conn,$_POST['cmdgroup']));
 
 
-$sql = " update users set fullname='$fullname',email='$email' where ID='$id'";
+$sql = " update users set fullname='$fullname',email='$email',groupname='$group' where ID='$id'";
 if (mysqli_query($conn, $sql)) {
 
   //save activity log details
@@ -200,7 +201,16 @@ $_SESSION['error']='Editing Was Not Successful';
                     <label for="exampleInputPassword1">Email</label>
                     <input type="text" class="form-control" name="txtemail" id="exampleInputPassword1" size="77" value="<?php echo $row_db['email'];   ?>" placeholder="Enter Email">
                   </div>
-				
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Group Name</label>
+                    <select name="cmdgroup"  id="cmdgroup" class="form-control" required>';
+                  <?php echo '<option value="'.$row_db['groupname'].'">'.$row_db['groupname'].'</option>'; ?>
+                  <option value="Admission Committee">Admission Committee</option>
+                 <option value="Headmaster">Headmaster</option>
+                 <option value="Principal">Principal</option>
+
+                 </select>  
+                    </div>
                              
                 </div>
                 <!-- /.card-body -->
